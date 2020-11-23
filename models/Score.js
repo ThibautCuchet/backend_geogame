@@ -34,7 +34,12 @@ class Score {
         return scores[location].points;
     }
 
-
+    static getTop5(){
+        let scores = getUsersScores(FILE_PATH);
+        return scores.sort(item=>item.score[this.location].points)
+            .slice(0,5)
+            .map((item)=>{username: item.name, points => item.score[this.location].point});
+    }
 
 
 }
