@@ -8,14 +8,18 @@ const Score = require("../models/Score");
 const router = express.Router();
 
 //Define routes
-router.post("/result", (req, res)=>{
-    const newScore = new Score(
-        req.body.username,
-        req.body.location,
-        req.body.points
-    );
-    newScore.save();
-    return res.json({ points: req.body.points});
+router.post("/result", (req, res) => {
+  const newScore = new Score(
+    req.body.username,
+    req.body.location,
+    req.body.points
+  );
+  newScore.save();
+  return res.json({ points: req.body.points });
 });
 
-module.exports=router;
+router.get("/top/:location", (req, res) => {
+  return res.json(Score.getTop5(req.params.location));
+});
+
+module.exports = router;
