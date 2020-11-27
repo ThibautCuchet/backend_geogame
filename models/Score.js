@@ -30,6 +30,10 @@ class Score {
     saveScoreToFile(FILE_PATH, usersScores);
   }
 
+  getBestScores(usersScores) {
+    return usersScores.find((user) => user.username === this.username);
+  }
+
     static getTop5(location){
         let scores = getUsersScores(FILE_PATH);
         return scores.sort(item=>item.score[location].points)
@@ -43,7 +47,6 @@ class Score {
   }
 
   static getTop5(location) {
-    console.log(location);
     let scores = getUsersScores(FILE_PATH);
     return scores
       .filter((item) => item.points[location])
