@@ -1,8 +1,11 @@
 const { json } = require("express");
 const express = require("express");
 const Game = require("../models/Game");
+const authorize = require("../utils/auth");
 
 const router = express.Router();
+
+router.use(authorize);
 
 router.post("/next", (req, res) => {
   console.log(req.session.currentGame);
