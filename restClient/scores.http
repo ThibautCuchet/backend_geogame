@@ -1,0 +1,23 @@
+POST http://localhost:3000/scores/result
+Content-Type: application/json
+
+{
+  "username": "Thib",
+  "location": "world",
+  "points": 10
+}
+
+###
+
+POST http://localhost:3000/scores/result
+Content-Type: application/json
+
+{
+  "username": "Max",
+  "location": "asia",
+  "points": 9999999
+}
+
+###
+
+GET http://localhost:3000/scores/top/asia
