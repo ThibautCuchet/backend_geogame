@@ -42,9 +42,33 @@ router.post("/answer", (req, res) => {
     req.body.answer ===
     req.session.currentGame.questions[req.session.currentGame.index - 1].country
       .iso2
-  )
-    return res.json(true);
-  return res.json(false);
+  ){
+    switch(req.session.currentGame.questions[req.session.currentGame.index - 1].questionType){
+      case "flag" : 
+        req.session.currentGame.points += 250;
+        break;
+      case "country" :
+        req.session.currentGame.points += 50;
+        break;
+      case "iso" : 
+        req.session.currentGame.points += 500;
+        break;
+      case "capital" :
+        req.session.currentGame.points += 150;
+      break;
+    }
+    return res.json({
+      answer : true,
+
+      points : req.session.currentGame.points
+    });
+  }
+    
+  return res.json({
+    answer : false,
+
+    points : req.session.currentGame.points
+  });
 });
 
 module.exports = router;
