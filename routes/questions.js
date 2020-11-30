@@ -27,11 +27,7 @@ router.post("/next", (req, res) => {
 });
 
 router.get("/start", (req, res) => {
-  req.session.currentGame = new Game(
-    req.body.location,
-    req.body.username,
-    req.body.type
-  );
+  req.session = null;
   return res.json({
     state: "create",
   });
