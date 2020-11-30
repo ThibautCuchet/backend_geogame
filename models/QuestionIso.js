@@ -1,13 +1,9 @@
-class QuestionIso{
-    constructor(country){
-        this.country = country;
-        this.number = Math.random()*10000
-    }
-    getAnswer(){
-        return this.country;
-    }
-    
-    getQuestion(){
-        return "Which country has this ISO2 code:" + this.country[iso2] + " ?";
-    }
+class QuestionIso {
+  constructor(country) {
+    this.country = country;
+    this.number = Math.random() * 10000;
+    this.questionType = "iso";
+  }
 }
+
+module.exports = QuestionIso;
