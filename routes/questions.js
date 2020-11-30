@@ -62,14 +62,12 @@ router.post("/answer", (req, res) => {
     }
     return res.json({
       answer: true,
-
       points: req.session.currentGame.points,
     });
   }
 
   return res.json({
     answer: false,
-
     points: req.session.currentGame.points,
   });
 });
