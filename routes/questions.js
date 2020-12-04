@@ -1,8 +1,12 @@
 const { json } = require("express");
 const express = require("express");
 const Game = require("../models/Game");
+const Score = require("../models/Score");
+const { authorize } = require("../utils/auth");
 
 const router = express.Router();
+
+router.use(authorize);
 
 router.post("/next", (req, res) => {
   console.log(req.session.currentGame);
@@ -13,9 +17,15 @@ router.post("/next", (req, res) => {
       req.body.type
     );
   if (req.session.currentGame.index == 10) {
-    req.session = null;
+    const newScore = new Score(
+      req.session.currentGame.user,
+      req.session.currentGame.location,
+      req.session.currentGame.points
+    );
+    newScore.save();
     return res.json({
       state: "finish",
+      points: req.session.currentGame.points,
     });
   }
   let question =
@@ -26,8 +36,12 @@ router.post("/next", (req, res) => {
   });
 });
 
-router.get("/start", (req, res) => {
-  req.session = null;
+router.post("/start", (req, res) => {
+  req.session.currentGame = new Game(
+    req.body.location,
+    req.body.username,
+    req.body.type
+  );
   return res.json({
     state: "create",
   });
@@ -39,6 +53,9 @@ router.post("/answer", (req, res) => {
     req.session.currentGame.questions[req.session.currentGame.index - 1].country
       .iso2
   ) {
+    req.session.currentGame.questions[
+      req.session.currentGame.index - 1
+    ].found = true;
     switch (
       req.session.currentGame.questions[req.session.currentGame.index - 1]
         .questionType

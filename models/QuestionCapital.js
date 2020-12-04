@@ -3,6 +3,7 @@ class QuestionCapital {
     this.country = country;
     this.number = Math.random() * 10000;
     this.questionType = "capital";
+    this.found = false;
   }
 }
 

@@ -3,6 +3,7 @@ class QuestionFlag {
     this.country = country;
     this.number = Math.random() * 10000;
     this.questionType = "flag";
+    this.found = false;
   }
 }
 
