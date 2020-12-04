@@ -9,7 +9,7 @@ class Score {
 
   async save() {
     let usersScores = getUsersScores(FILE_PATH);
-
+    console.log(this.points);
     let scores = this.getBestScores(usersScores);
 
     if (scores) {
@@ -34,12 +34,10 @@ class Score {
     return usersScores.find((user) => user.username === this.username);
   }
 
-    static getTop5(location){
-        let scores = getUsersScores(FILE_PATH);
-        return scores.sort(item=>item.score[location].points)
-            .slice(0,5)
-            .map((item)=>{username: item.name, points => item.score[location].point});
-    }
+  getUserBestScores() {
+    let usersScores = getUsersScores(FILE_PATH);
+    return this.getBestScores(usersScores);
+  }
 
   getBestScoreLocation(scores, location) {
     if (!scores.points[location]) return 0;

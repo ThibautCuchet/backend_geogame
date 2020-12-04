@@ -19,29 +19,33 @@ router.post("/register", (req, res) => {
     req.body.password
   );
   newUser.save();
-  return res.json({ username: req.body.username });
+  setTimeout(() => {
+    return generateToken(req.body.username, req.body.password, res);
+  }, 100);
 });
 
 router.post("/login", (req, res) => {
-  User.checkCredentials(req.body.username, req.body.password).then((match) => {
+  return generateToken(req.body.username, req.body.password, res);
+});
+
+const generateToken = (username, password, res) => {
+  User.checkCredentials(username, password).then((match) => {
     if (match) {
-      console.log("User authentified");
       jwt.sign(
         {
-          username: req.body.username,
+          username,
         },
         process.env.JWT_TOKEN,
         { expiresIn: LIFETIME_JWT },
         (err, token) => {
           if (err) return res.status(500).send(err.message);
-          return res.json({ username: req.body.username, token });
+          return res.json({ username: username, token });
         }
       );
     } else {
-      console.log("User unanthentified");
       return res.status(401).send("bad email/password");
     }
   });
-});
+};
 
 module.exports = router;

@@ -13,6 +13,7 @@ class Game {
       this.questionsType,
       getCountries(FILE_PATH, location)
     );
+    this.location = location;
     this.index = 0;
     this.points = 0;
   }
@@ -30,10 +31,10 @@ class Game {
     }
   }
 
-  static finishGame(user, location, points){
-      let score = new Score(user, location, points);
-      score.save();
-      return score;
+  static finishGame(user, location, points) {
+    let score = new Score(user, location, points);
+    score.save();
+    return score;
   }
 }
 
@@ -49,6 +50,7 @@ function getCountries(filepath, location) {
 }
 
 function generateQuestions(questionsType, countries) {
+  console.log(questionsType);
   let questions = new Array(10);
   for (let i = 0; i < questions.length; i++) {
     questions[i] = generateQuestionWhitType(
