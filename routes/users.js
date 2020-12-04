@@ -19,6 +19,17 @@ router.post("/register", (req, res) => {
     req.body.password
   );
   newUser.save();
+  jwt.sign(
+    {
+      username: req.body.username,
+    },
+    process.env.JWT_TOKEN,
+    { expiresIn: LIFETIME_JWT },
+    (err, token) => {
+      if (err) return res.status(500).send(err.message);
+      return res.json({ username: req.body.username, token });
+    }
+  );
   return res.json({ username: req.body.username });
 });
 
