@@ -3,7 +3,6 @@ const QuestionCountry = require("./QuestionCountry");
 const QuestionCapital = require("./QuestionCapital");
 const QuestionFlag = require("./QuestionFlag");
 const QuestionIso = require("./QuestionIso");
-const Score = require("./Score");
 
 class Game {
   constructor(location, user, questionsType) {
@@ -29,12 +28,6 @@ class Game {
       case "flag":
         return `Which country's flag is : <img src="${country.flag}" style="height: 2em; width: auto">`;
     }
-  }
-
-  static finishGame(user, location, points) {
-    let score = new Score(user, location, points);
-    score.save();
-    return score;
   }
 }
 

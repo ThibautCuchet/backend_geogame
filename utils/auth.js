@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+const { checkUser } = require("./database");
 
 const authorize = (req, res, next) => {
   let token = req.get("Authorization");
@@ -7,9 +7,10 @@ const authorize = (req, res, next) => {
     return res.status(401).send("You are not authenticated");
   jwt.verify(token, process.env.JWT_TOKEN, (err, token) => {
     if (err) return res.status(401).send(err.message);
-    let user = User.getUserFromUsername(token.username);
-    if (!user) return res.status(401).send("User not found");
-    next();
+    checkUser(token.username).then((results) => {
+      if (results.rowCount == 0) return res.status(401).send("User not found");
+      else next();
+    });
   });
 };
 
