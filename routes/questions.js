@@ -1,7 +1,6 @@
 const { json } = require("express");
 const express = require("express");
 const Game = require("../models/Game");
-const Score = require("../models/Score");
 const { authorize } = require("../utils/auth");
 const { saveScore } = require("../utils/database");
 

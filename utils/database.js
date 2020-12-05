@@ -109,6 +109,10 @@ const saveScore = (req, res) => {
   );
 };
 
+const checkUser = (username) => {
+  return client.query(`SELECT * FROM users WHERE username = '${username}'`);
+};
+
 const signToken = (username, res) => {
   jwt.sign(
     {
@@ -129,4 +133,5 @@ module.exports = {
   getScoresBoardLocation,
   userBestScoreLocation,
   saveScore,
+  checkUser,
 };

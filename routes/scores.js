@@ -2,8 +2,6 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 //Import models
-const Score = require("../models/Score");
-const User = require("../models/User");
 const {
   getScoresBoardLocation,
   userBestScoreLocation,
