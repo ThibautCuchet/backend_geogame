@@ -98,7 +98,7 @@ const saveScore = (req, res) => {
      )
      ON CONFLICT(user_id, location)
      DO
-      UPDATE SET score = EXCLUDED.score`,
+      UPDATE SET score = GREATEST(EXCLUDED.score, score)`,
     (err) => {
       if (err) console.log(err);
       return res.json({
