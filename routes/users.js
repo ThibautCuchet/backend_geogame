@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 //Import models
 const User = require("../models/User");
+const { authorize } = require("../utils/auth");
 
 //Define const and let
 const router = express.Router();
@@ -26,6 +27,10 @@ router.post("/register", (req, res) => {
 
 router.post("/login", (req, res) => {
   return generateToken(req.body.username, req.body.password, res);
+});
+
+router.get("/islogged", authorize, (req, res) => {
+  return res.json({ logged: true });
 });
 
 const generateToken = (username, password, res) => {
