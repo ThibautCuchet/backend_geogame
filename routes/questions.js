@@ -24,6 +24,7 @@ router.post("/next", (req, res) => {
   return res.json({
     state: "in-game",
     question: Game.sendQuestion(question.questionType, question.country),
+    country: question.country,
   });
 });
 
