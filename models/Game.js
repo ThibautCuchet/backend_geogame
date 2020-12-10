@@ -43,12 +43,17 @@ function getCountries(filepath, location) {
 }
 
 function generateQuestions(questionsType, countries) {
-  console.log(questionsType);
   let questions = new Array(10);
+  let questionCountries = new Array(10);
   for (let i = 0; i < questions.length; i++) {
+    let country = chooseCountry(countries);
+    while(questionCountries.includes(country.iso2)){
+      country = chooseCountry(countries);
+    }
+    questionCountries[i] = country.iso2;
     questions[i] = generateQuestionWhitType(
       questionsType[i % questionsType.length],
-      chooseCountry(countries)
+      country
     );
   }
   return questions.sort((a, b) => a.number - b.number);
