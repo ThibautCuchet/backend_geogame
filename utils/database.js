@@ -128,6 +128,24 @@ const placeInScoreboard = (req, res) => {
   );
 };
 
+const leaderboard = (req, res) => {
+  client.query(
+    `SELECT u.username, s.score, s.location FROM 
+    (
+      SELECT u.id, MAX(s.score) as score 
+      FROM users u, scores s 
+      WHERE u.id = s.user_id 
+      GROUP BY u.id) a
+    , users u, scores s
+    WHERE a.id = u.id AND a.id = s.user_id AND a.score = s.score
+    ORDER BY s.score DESC`,
+    (err, results) => {
+      if (err) console.log(err);
+      return res.json(results.rows);
+    }
+  );
+};
+
 const checkUser = (username) => {
   return client.query(`SELECT * FROM users WHERE username = '${username}'`);
 };
@@ -154,4 +172,5 @@ module.exports = {
   saveScore,
   checkUser,
   placeInScoreboard,
+  leaderboard,
 };

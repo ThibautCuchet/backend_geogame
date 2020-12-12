@@ -26,7 +26,7 @@ class Game {
       case "capital":
         return `Which country's capital is : ${country.capital} ?`;
       case "flag":
-        return `Which country's flag is : <img src="${country.flag}" style="height: 2em; width: auto; margin-left: 5px; border: solid 1px black;">`;
+        return `Which country's flag is : <img src="${country.flag}" style="height: 2em; width: auto; margin-left: 5px; border: solid 1px grey;">`;
     }
   }
 }

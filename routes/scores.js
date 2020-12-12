@@ -6,6 +6,7 @@ const {
   getScoresBoardLocation,
   userBestScoreLocation,
   placeInScoreboard,
+  leaderboard,
 } = require("../utils/database.js");
 
 //Define const and let
@@ -18,6 +19,8 @@ router.get("/game", (req, res) => {
 });
 
 router.get("/position", placeInScoreboard);
+
+router.get("/leaderboard", leaderboard);
 
 const countQuestions = (currentGame) => {
   let result = {};
