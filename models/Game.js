@@ -26,7 +26,7 @@ class Game {
       case "capital":
         return `Which country's capital is : ${country.capital} ?`;
       case "flag":
-        return `Which country's flag is : <img src="${country.flag}" style="height: 2em; width: auto">`;
+        return `Which country's flag is : <img src="${country.flag}" style="height: 2em; width: auto; margin-left: 5px; border: solid 1px black;">`;
     }
   }
 }
@@ -47,7 +47,7 @@ function generateQuestions(questionsType, countries) {
   let questionCountries = new Array(10);
   for (let i = 0; i < questions.length; i++) {
     let country = chooseCountry(countries);
-    while(questionCountries.includes(country.iso2)){
+    while (questionCountries.includes(country.iso2)) {
       country = chooseCountry(countries);
     }
     questionCountries[i] = country.iso2;
