@@ -115,17 +115,11 @@ const placeInScoreboard = (req, res) => {
     `SELECT * 
      FROM (
       SELECT ROW_NUMBER() OVER(ORDER BY score DESC) AS index, username, score
-        FROM (
-          SELECT username, score 
-          FROM scores, users
+      FROM scores, users
           WHERE user_id = id
             AND location = '${location}' 
-          UNION 
-          SELECT '${user}' AS username, ${points} AS score
-        ) a
-      ) b
+      ) a
     WHERE username = '${user}'
-    ORDER BY index DESC
     LIMIT 1`,
     (err, results) => {
       if (err) console.log(err);
