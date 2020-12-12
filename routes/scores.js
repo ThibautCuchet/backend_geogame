@@ -5,16 +5,19 @@ const jwt = require("jsonwebtoken");
 const {
   getScoresBoardLocation,
   userBestScoreLocation,
+  placeInScoreboard,
 } = require("../utils/database.js");
 
 //Define const and let
 const router = express.Router();
 
-router.get("/top/:location", getScoresBoardLocation);
+router.get("/top", getScoresBoardLocation);
 
-router.get("/game/:location/:username", (req, res) => {
+router.get("/game", (req, res) => {
   userBestScoreLocation(req, res, countQuestions(req.session.currentGame));
 });
+
+router.get("/position", placeInScoreboard);
 
 const countQuestions = (currentGame) => {
   let result = {};

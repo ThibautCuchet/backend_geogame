@@ -53,14 +53,14 @@ const createUser = (req, res) => {
 };
 
 const getScoresBoardLocation = (req, res) => {
-  const { location } = req.params;
+  const { location } = req.session.currentGame;
   client.query(
     `SELECT u.username, s.score 
      FROM scores s, users u 
       WHERE s.user_id = u.id 
         AND s.location = '${location}' 
      ORDER BY s.score DESC 
-     LIMIT 10`,
+     LIMIT 5`,
     (err, results) => {
       if (err) console.log(err);
       return res.json(results.rows);
@@ -69,12 +69,12 @@ const getScoresBoardLocation = (req, res) => {
 };
 
 const userBestScoreLocation = (req, res, questions) => {
-  const { location, username } = req.params;
+  const { location, user } = req.session.currentGame;
   client.query(
     `SELECT s.score
        FROM scores s, users u
        WHERE s.user_id = u.id
-       AND u.username = '${username}'
+       AND u.username = '${user}'
        AND s.location = '${location}'`,
     (err, results) => {
       if (err) console.log(err);
@@ -109,6 +109,31 @@ const saveScore = (req, res) => {
   );
 };
 
+const placeInScoreboard = (req, res) => {
+  const { location, user, points } = req.session.currentGame;
+  client.query(
+    `SELECT * 
+     FROM (
+      SELECT ROW_NUMBER() OVER(ORDER BY score DESC) AS index, username, score
+        FROM (
+          SELECT username, score 
+          FROM scores, users
+          WHERE user_id = id
+            AND location = '${location}' 
+          UNION 
+          SELECT '${user}' AS username, ${points} AS score
+        ) a
+      ) b
+    WHERE username = '${user}'
+    ORDER BY index DESC
+    LIMIT 1`,
+    (err, results) => {
+      if (err) console.log(err);
+      return res.json(results.rows);
+    }
+  );
+};
+
 const checkUser = (username) => {
   return client.query(`SELECT * FROM users WHERE username = '${username}'`);
 };
@@ -134,4 +159,5 @@ module.exports = {
   userBestScoreLocation,
   saveScore,
   checkUser,
+  placeInScoreboard,
 };
